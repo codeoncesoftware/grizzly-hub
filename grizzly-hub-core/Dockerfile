@@ -1,14 +1,9 @@
 FROM openjdk:11.0.7-jdk-slim
 
-VOLUME /tmp
-
-RUN echo '[DOCKER] Building in progress...'
-
-ARG JAR_FILE
-ADD target/${JAR_FILE} /usr/share/codeonce/app.jar
-
-ENTRYPOINT [ "java", "-jar", "/usr/share/codeonce/app.jar" ]
-
+# Make port 8080 available to the world outside this container
 EXPOSE 8090
 
-RUN echo '[DOCKER] Build completed!'
+ADD target/grizzly-hub-core-0.0.1-SNAPSHOT.jar grizzly-hub-core-0.0.1-SNAPSHOT.jar
+
+# Run the jar file 
+ENTRYPOINT ["java","-jar","grizzly-hub-core-0.0.1-SNAPSHOT.jar"]
