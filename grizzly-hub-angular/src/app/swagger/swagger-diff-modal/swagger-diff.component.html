@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <h1 mat-dialog-title translate>popups.swagger.compare.title</h1>
+    <mat-selection-list #swaggers>
+        <mat-list-option *ngFor="let swagger of selectedOptions" [selected]="swagger.selected" [value]="swagger.swagger.id" (click)="onListChange(swaggers)">
+            {{swagger.swagger.environment}} v{{swagger.swagger.version}}
+        </mat-list-option>
+    </mat-selection-list>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-error>
+                <p *ngIf="swaggers.selectedOptions.selected.length != 2" translate>popups.swagger.compare.error</p>
+            </mat-error>
+            <mat-error *ngIf="invalidSwaggerTypes">
+                <span translate>diff.invalidTypes</span>
+            </mat-error>
+        </div>
+    </div>
+    <div class="box-body text-right">
+        <button mat-raised-button [mat-dialog-close]="false">
+      <span translate>popups.buttons.cancel</span>
+    </button>
+        <span class="space"></span>
+        <button (click)="showDiffs()" mat-raised-button color="primary" [disabled]="selectedOptions.length < 2 || swaggers.selectedOptions.selected.length != 2">
+      <span translate>popups.buttons.confirm</span>
+    </button>
+    </div>
+</div>

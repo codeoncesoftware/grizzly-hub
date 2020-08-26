@@ -1,0 +1,29 @@
+<app-loader></app-loader>
+<div class="container" style="margin-top: 4%">
+    <div class="box box-default">
+
+        <div class="box-info">
+
+            <mat-list style="background-color:#fff; width: 100%;">
+                <div mat-subheader>Notifications</div>
+                <mat-list-item *ngFor="let notification of notifications; let j = index">
+                    <div mat-line id="microservice-title">
+                        <span style="font-weight: 500; font-size: 18px;">{{notification.microserviceTitle}}</span> <span> : </span> <span translate> {{notification.commentaire}}</span>
+                    </div>
+                    <div mat-line style="font-size: 13px; margin-top: 1%">
+                        {{notification.sendingDate | date:'medium' }} , By <span style="font-weight: 500"> {{notification.owner}}  </span>
+                        <span class="badge badge-pill mb-1" style="background-color: #175581;color: white; margin-left: 10px;position: relative;bottom: 1px;font-size: 0.9em;">{{notification.environment}}</span>
+                    </div>
+                    <button style="width: 140px;background-color: #125495;color: white; margin-right: 2%" mat-raised-button (click)="openDiffModal(notification.idOldSwagger,notification.idNewSwagger)">
+                        <span translate>Details</span>
+                    </button>
+                    <button type="button" class="close" aria-label="Close" (click)="openConfirmDeleteDialog(notification)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </div>
+
+    </div>
+</div>

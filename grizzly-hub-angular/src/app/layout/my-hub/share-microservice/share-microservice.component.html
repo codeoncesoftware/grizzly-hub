@@ -1,0 +1,73 @@
+<app-loader></app-loader>
+<div class="divider divider-md">
+</div>
+<div class="page-wrap">
+    <div class="share-details-wrap">
+        <span class="share-details" translate>
+            microservice.shareDetails </span>
+    </div>
+
+    <div class="container" style="height: auto;">
+
+
+        <div class="row" >
+            <mat-form-field class="col-md-5">
+                <mat-label>Team</mat-label>
+                <input matInput list="teams" name="team" #t autocomplete="off">
+                <datalist matNativeControl id="teams">
+              <option *ngFor="let team of teams ; let i = index"  [value]="team.name">{{team.name}}</option>
+            </datalist>
+            </mat-form-field>
+            <div class="col-md-7">
+                <div class="row" style="display: table-cell;">
+                    <button matSuffix mat-raised-button color="primary" class="btn-w-md mt-2"  (click)="addUsers(t.value)"><mat-icon class="material-icons">add</mat-icon>&nbsp; <span translate>popups.buttons.add</span>
+                    </button>
+                        <button style="margin-left: 8px;" matSuffix mat-raised-button color="primary" class="btn-w-md mt-2"  (click)="selectAllUsersOfTeams()"><mat-icon class="material-icons">add</mat-icon>&nbsp; <span translate>popups.buttons.selectAll</span>
+                        </button>
+                </div>
+               
+              
+            </div>
+        </div>
+        <div  *ngIf="usersToAdd?.length === 0 && showNoUsers === true;">
+            <p translate>popups.microservice.errors.noUsers</p>
+        </div>
+        <div *ngIf="usersToAdd?.length > 0">
+            <div style="height: 50%;">
+                <table class="mdl-data-table" style="width: 100%;">
+                    <thead>
+                        <tr *ngIf="usersToAdd.length > 0">
+                            <th id="tableHead">Email</th>
+                            <th id="tableHead">Team</th>
+                            <th id="tableHead"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let user of usersToAdd; let i = index">
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">{{user.email}} </td>
+                                <td class="mdl-data-table__cell--non-numeric">{{user.team}} </td>
+                                <td>
+                                    <button mat-button (click)="deleteUserRow(i)">
+                        <mat-icon>clear</mat-icon>
+                      </button>
+                                </td>
+
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+            </div>
+        </div> 
+
+    </div>
+    <div class="divider divider-md"></div>
+    <div class="box-body text-right buttons">
+        <button mat-raised-button type="button" class="btn-w-md" (click)="dialogRef.close()">
+            <span translate>popups.buttons.cancel</span></button>
+        <span class="space"></span>
+        <button mat-raised-button type="button" color="#002659" class="btn-w-md" id="confirm" (click)="confirm()" [disabled]="usersToAdd?.length === 0 ">
+            <span translate>popups.buttons.confirm</span></button>
+    </div>
+</div>

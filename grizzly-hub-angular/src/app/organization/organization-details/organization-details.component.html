@@ -1,0 +1,52 @@
+<app-loader></app-loader>
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-9">
+            <button class="mat-fab-menu  mt-2 " mat-mini-fab  >
+                <span class="abrevName">{{organizationNameAbrev}}</span> 
+            </button>
+            <span style="font-size: 25px;font-weight: bold;">{{organization?.name}}</span>
+        </div>
+        <div class="col-3">
+            <button (click)="openConfirmDeleteDialog()" class="deleteButton" mat-button><span translate>organization.delete</span><mat-icon style="margin-left: 10px;">delete_forever</mat-icon></button>
+        </div>
+    </div>
+    
+    <div>
+        <h6>{{organization?.totalMembers}} <span translate>organization.membersTitle</span> / {{organization?.totalTeams}} <span translate>organization.teams</span> |  <span translate>team.created</span> {{organization?.creationDate | date}} </h6>
+      </div>
+    <div class="border-div"></div>
+    <br>
+<div>
+    <form>
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input [(ngModel)]="organization.name" name="name" matInput placeholder="Name" >
+              </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field  appearance="outline">
+                <mat-label >Email</mat-label>
+                <input [(ngModel)]="organization.email" name="email"  matInput placeholder="Email">
+            </mat-form-field>
+              <mat-error *ngIf="!emailFormatValid">
+                <span translate>auth.signup.errors.emailValid</span>
+              </mat-error>
+        </div>
+        <br *ngIf="!emailFormatValid">
+        <div>
+            <mat-form-field  appearance="outline">
+                <mat-label >Description</mat-label>
+                <textarea [(ngModel)]="organization.description" name="description" matInput placeholder="Description"></textarea>   
+              </mat-form-field>
+        </div>
+        <div>
+            <button (click)="updateOrganization()" style="background-color:#002659;color: white;" mat-button><span translate>organization.save</span></button>
+        </div>
+       
+          
+    </form>
+</div>
+    
+</section>

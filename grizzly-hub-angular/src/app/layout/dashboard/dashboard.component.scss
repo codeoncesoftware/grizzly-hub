@@ -1,0 +1,31 @@
+#progress-container {
+    margin-left: 35%;
+    margin-top: 20%;
+}
+
+#microservice-title {
+    font-size: 18px;
+}
+
+#subsribedButton {
+    width: 200px;
+    background-color: #125495;
+    color: white;
+}
+
+#subsribeButton {
+    width: 170px;
+    background-color: #125495;
+    color: white;
+}
+
+#unsibsribeButton {
+    width: 200px;
+    background-color: #FFCC00;
+    color: white;
+}
+
+.element :hover {
+    opacity: 0.9;
+    text-decoration: underline;
+}

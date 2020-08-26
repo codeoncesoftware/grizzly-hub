@@ -1,0 +1,122 @@
+#POST{
+    padding: 9px;
+    background-color: #0097ab;
+    color: #ffffff;
+}
+#GET{
+    padding: 9px;
+    background-color: #66bb6a;
+    color: #ffffff;
+}
+#PUT{
+    padding: 9px;
+    background-color: burlywood;
+    color: #ffffff;
+}
+#DELETE{
+    padding: 9px;
+    background-color: #ef5350;
+    color: #ffffff;
+}
+.example-tree-invisible {
+    display: none;
+}
+.badge{
+    font-size: 100%;
+    margin: 1px;
+} 
+.badge-info{
+    background-color: #022659;
+    color: white;
+}
+.example-tree ul,
+.example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+}
+.key{font-weight: 500;color: #04193c;}
+.value{color:rgba(255, 40, 40, 0.87)}
+.tree-item{
+    font-size: 17px;
+}
+.diff{
+    font-size:18px;
+    padding: 8px;
+}
+.diff-added, .diff-changed:hover{
+    background-color:#B9F6CA !important;
+}
+.diff-changed, .diff-changed:hover{
+    background-color:#FFE57F !important;
+}
+.diff-missing, .diff-missing:hover{
+    background-color:#FFCDD2 !important;
+}
+.diff-path{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    word-break: break-word;
+    padding: 0 10px;
+    font-family: monospace;
+}
+.endpoint-panel{
+    margin-bottom: 1% !important;
+}
+.diff-method{
+    background-color: #0097ab;
+    color: #ffffff;
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 80px;
+    padding: 6px 15px;
+    text-align: center;
+    border-radius: 3px;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    font-family: sans-serif;
+    color: #fff;
+}
+.diff-summary{
+    padding: 10px;
+    font-size: 13px;
+}
+.btn-diff{
+    float: right;
+    background-color: #022659;
+    color:white;
+}
+.added{
+    background-color: green;
+}
+.deleted{
+    background-color: red;
+}
+// .my-code-editor {
+//     .editor-container {
+     
+//     }
+//   }
+.monaco-editor{
+    height: 300px !important;
+}
+// .mat-tab-label {
+//     background-color: green;
+//     color: white;
+// }
+.warn-response{
+    color: red;
+}
+[aria-label=primary] {
+    background-color: rgb(15, 15, 68);
+}
+[aria-label=accent] {
+background-color: aqua;
+}
+.success-response{
+    color: green;
+}
+
+/* desert scheme ported from vim to google prettify */
+pre.prettyprint { min-height: 145px; display: block; background-color: #333; color: white; }

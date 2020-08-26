@@ -1,0 +1,216 @@
+<app-loader></app-loader>
+<section class="container-fluid">
+    <!-- Show a Microservice Details Section START -->
+    <article class="article">
+        <br>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="box" style="box-shadow: none" *ngIf="microservice?.id">
+                    <div class="box-header project-header radius-top" [ngClass]="{'border-radius-bottom': toggleMicroserviceDetails === true}">
+                        <button mat-button (click)="showMicroserviceDetails()" style="cursor:pointer">
+                            <mat-icon class="material-icons">
+                                {{toggleMicroserviceDetails  ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+                            </mat-icon> &nbsp; {{microservice?.title}} &nbsp;&nbsp;
+                        </button>
+                        <span style="flex: 1 1 auto;"></span>
+                        <div *ngIf="editAndDelete" style="float:right">
+                            <mat-icon class="info" matTooltipClass="test" matTooltip="{{ 'microservice.creationDate' | translate}} : {{microservice?.creationDate |  date: 'M/d/yy, h:mm a'}} 
+                            {{ 'microservice.lastUpdate' | translate }} : {{microservice?.lastUpdateDate | date: 'M/d/yy, h:mm a'}}">
+                                info
+                            </mat-icon>
+                            <button  (click)="openMicroserviceModal()" mat-button>
+                                <mat-icon>edit</mat-icon>&nbsp;
+                                <span translate>microservice.edit</span>
+                            </button>&nbsp;
+                            <button (click)="openConfirmDeleteDialog()" mat-button>
+                                <mat-icon>delete_forever</mat-icon>&nbsp;
+                                <span translate>microservice.delete</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="box-body radius-bottom" style="background-color: #FFF;" [@slideUpDown]="toggleMicroserviceDetails">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-card style="height: 100%">
+                                    <div class="widget-container" style="margin-top: -20px; margin-bottom: -5px">
+                                        <h5>Description </h5>
+                                        <button *ngIf="editAndDelete"  style="margin-left:90%;margin-top: -15%;" (click)="editDescription()" mat-button>
+                                            <mat-icon>edit</mat-icon>  
+                                        </button>
+                                        <button *ngIf="showDescription"  style="margin-left:79%;margin-top: -22%;" (click)="updateDescription()" mat-button>
+                                            <mat-icon>save</mat-icon>  
+                                        </button>
+
+                                    </div>
+                                    <div  *ngIf="showDescription"  id="description" style="border-radius: 6px; margin-bottom: -5px">
+                                        <ckeditor (change)="onChange($event)" [data]="microservice.description" #e id="editor" style="width: 1000px;" [editor]="Editor" [(ngModel)]="microservice.description"></ckeditor>
+                                    </div>
+                                    <div *ngIf="!showDescription" class="box-dark" id="description" style="border-radius: 6px; margin-bottom: -5px">
+                                        <p [innerHTML]="microservice?.description | sanitizeHtml" >
+                                            <!-- {{ microservice?.description | sanitizeHtml}} -->
+                                        </p>
+                                        <div *ngIf="!microservice.description">
+                                            <p translate>microservice.noDescription</p>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-card style="height: 100%">
+                                    <div class="widget-container" style="margin-top: -20px; margin-bottom: -5px">
+                                        <h5 translate>popups.swagger.details</h5>
+                                    </div>
+                                    <br>
+                                    <!-- <div *ngIf="swaggers?.length === 0">
+                                        <p>No swaggers available</p>
+                                    </div> -->
+                                    <div style="position: relative" >
+                                        <p><span  style="color: #002659" ><strong translate>popups.swagger.nameSwagger</strong></span> : {{swaggerDetails.swaggerName}}
+                                        </p>
+                                        <p><span style="color: #002659"><strong>Type</strong></span> : {{swaggerDetails.swaggerType}}
+                                        </p>
+                                        <p><span style="color: #002659"><strong translate>popups.swagger.lastVersion</strong></span> : {{swaggerDetails.swaggerVersion}}
+                                        </p>
+                                        <p><span style="color: #002659"><strong translate>popups.swagger.production </strong></span> : {{swaggerDetails.inProd}}
+                                        </p>
+
+                                        <div *ngIf="swaggerAuth.length !==0"> 
+                                            <p><span style="color: #002659"><strong>Authentication Types
+                                                    </strong></span> :
+                                                <span *ngFor="let s of swaggerAuth ; last as isLast"> {{s.type}}<span
+                                                        *ngIf="!isLast"> / </span> </span>
+                                            </p>
+                                        </div>
+
+                                        <p><span style="color: #002659"><strong translate>popups.swagger.lastUpdated</strong></span> : {{swaggerDetails.lastUpdated | date: 'medium'}}
+                                        </p>
+
+
+
+                                    </div>
+
+                                </mat-card>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <!-- Security Config -->
+                            <div class="col-md-6">
+
+                                <mat-card style="height: 100%;">
+                                    <div class="widget-container" style="margin-top: -20px;">
+                                        <h5>FAQ<button *ngIf="editAndDelete"  style="margin-left:89%; margin-top: -11%;" (click)="openFAQModal()" mat-button>
+                                            <mat-icon>add_circle</mat-icon>&nbsp;
+
+                                            </button>&nbsp;</h5>
+                                    </div>
+                                    <div *ngIf="microservice.faq?.length !== 0">
+                                        <div *ngFor="let f of microservice.faq; let i = index" class="tab-content" id="faq-tab-content">
+                                            <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1">
+                                                <div class="accordion" id="accordion-tab-1">
+                                                    <div class="card">
+                                                        <div style="height:60px" class="card-header" [attr.id]="'accordion-tab-1-heading-' + i">
+                                                            
+                                                                <button style="margin-top: -5px;" class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#accordion-tab-1-content-' + i" aria-expanded="false" [attr.aria-controls]="'accordion-tab-1-content-' + i">{{f.questionTitle}}</button>
+                                                            <div style="float: right; display:flex; height:63px; margin-top: -16px;">
+                                                                <button style="margin-left: 14%;" *ngIf="editAndDelete" (click)="openFAQModalToEdit(f.questionTitle , f.response)" mat-button>
+                                                                    <mat-icon>edit</mat-icon>  
+                                                                </button>
+                                                                <button *ngIf="editAndDelete" (click)="deleteQuestion(f.questionTitle , f.response)" mat-button>
+                                                                    <mat-icon>delete</mat-icon>  
+                                                                </button>
+                                                            </div>
+                                          
+
+                                          
+                                                        </div>
+                                                        <div class="collapse" [attr.id]="'accordion-tab-1-content-' + i" [attr.aria-labelledby]="'accordion-tab-1-heading-' + i" data-parent="#accordion-tab-1">
+                                                            <div class="card-body">
+                                                                <p>{{f.response}}</p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </mat-card>
+                            </div>
+
+                            <!-- Documentation -->
+                            <div class="col-md-6">
+                                <mat-card>
+                                    <div class="widget-container" style="margin-top: -20px">
+                                        <h5 style="margin-top: 3%;">Documentation<button *ngIf="editAndDelete"  style="margin-left:62%;" (click)="openDocumentationModal()" mat-button>
+                                                <mat-icon>edit</mat-icon>&nbsp;
+
+                                            </button>&nbsp;</h5>
+                                    </div>
+                                    <div>
+                                        <div *ngFor="let d of microservice.documentation;let i = index" class="tab-content" id="faq-tab-content" style="margin-top: -11px;">
+                                            <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1">
+                                                <div class="accordion" id="accordion-tab-2">
+                                                    <div class="card">
+                                                        <div class="card-header" [attr.id]="'accordion-tab-2-heading-' + i">
+                                                            <h5>
+                                                                <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#accordion-tab-2-content-' + i" aria-expanded="false" [attr.aria-controls]="'accordion-tab-2-content-' + i">
+
+                                                                    <div class="row">
+                                                                        <button [ngClass]="{post: d.operation == 'post',
+                                                                             get: d.operation == 'get',
+                                                                             delete: d.operation == 'delete',
+                                                                             put: d.operation == 'put'
+                                                                             }" 
+                                                                             id="showButton"
+                                                                             
+                                                                            class="btn btn-primary">{{d.operation}}</button>
+                                                                <h6 style="margin-left: 30px;margin-top:3px ;">
+                                                                    {{d.endpoint}}</h6>
+                                                                    
+                                                        </div>
+
+
+
+
+                                                        </button>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="collapse" [attr.id]="'accordion-tab-2-content-' + i" [attr.aria-labelledby]="'accordion-tab-2-heading-' + i" data-parent="#accordion-tab-2">
+
+                                                        <pre style="background-color: #EFF0F1;" #curl>
+                                                                <div style="margin-left: 40px;" [innerHTML]="d.doc | sanitizeHtml" >
+
+                                                                </div>
+                                                            </pre>
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                            </div>
+
+
+                            </mat-card>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+    </article>
+
+</section>
+<section class="container-fluid" *ngIf="microservice?.id">
+    <app-swagger-container></app-swagger-container>
+</section>

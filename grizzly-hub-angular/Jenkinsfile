@@ -1,0 +1,81 @@
+#!/usr/bin/env groovy
+
+pipeline {
+
+    agent any
+    
+    tools {
+        nodejs 'node'
+    }
+
+    triggers { pollSCM('*/5 * * * *') }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+
+    stages {
+
+        stage('Setup Stage') {
+            steps {
+                sh "npm install"
+            }
+        }
+        
+        stage('Lint Stage') {
+            steps {
+                sh "npm run lint"
+            }
+        } 
+        
+        stage('Build for CI') {
+            when { branch "develop" }
+            steps {
+               sh "npm run build -- --configuration=develop"
+            }
+        }
+
+        stage('Build for PROD') {
+            when { branch "master" }
+            steps {
+               sh "npm run build -- --prod"
+            }
+        }
+        
+                
+        stage('Upload Dist into AWS S3 '){
+            when { branch "develop" }
+            steps {
+                withAWS(credentials:'7f53e3c0-f681-444e-a49a-14495eb89e82', region:'eu-central-1') {
+                    s3Delete(bucket:'codeonce-grizzly-hub-angular-s3-dev', path:'**/*')
+                    s3Upload(bucket:"codeonce-grizzly-hub-angular-s3-dev", path:'dist', includePathPattern:'**/*', workingDir:'dist')
+                    cfInvalidate(distribution:'E2EB76IDACFF1A', paths:['/*'])
+                }
+            }
+        }
+        
+        stage('Upload Dist into AWS S3 CD '){
+            when { branch "master" }
+            environment {
+               APP_VERSION = sh(script: 'npm run get-version --silent', returnStdout: true).trim()
+            }
+            steps {
+                sh "echo APP_VERSION:${env.APP_VERSION}"
+                withAWS(credentials:'7f53e3c0-f681-444e-a49a-14495eb89e82', region:'eu-central-1') {
+                    s3Upload(bucket:"codeonce-grizzly-hub-angular-s3-prod", path:"${env.APP_VERSION}", includePathPattern:'**/*', workingDir:'dist')
+                }
+            }
+        }
+    }
+    post {
+        failure {
+             emailext (
+		      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+		      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+		        <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+		      recipientProviders: [[$class: 'DevelopersRecipientProvider'],[$class: 'CulpritsRecipientProvider']]
+		    )
+        }
+    }
+
+}

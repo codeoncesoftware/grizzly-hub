@@ -1,0 +1,52 @@
+<app-loader></app-loader>
+<div class="container" style="margin-top: 4%">
+    <mat-form-field class="full-width">
+        <mat-icon matPrefix>search</mat-icon>
+        <input (ngModelChange)="onSearchInputChange($event)" [(ngModel)]="ms" matInput type="search" placeholder="search here" class="search-input">
+    </mat-form-field>
+    <div id="progress-container" *ngIf="loading">
+        <mat-spinner class="centered"></mat-spinner>
+    </div>
+    <div class="box box-default">
+
+        <div class="box-info">
+            <div infiniteScroll [infiniteScrollDistance]="3" [infiniteScrollThrottle]="100" (scrolled)="onScrollDown()" infinite-scroll-disabled="disableScroll">
+                <mat-list *ngIf="!loading" style="background-color:#fff; width: 100%;">
+                    <div mat-subheader>Microservices</div>
+                    <mat-list-item *ngFor="let microservice of filteredMicroservices; let j = index" style="cursor: pointer;">
+                        <!-- <div > -->
+                        <div mat-line id="microservice-title" class="element" (click)="openMicroservice(microservice)">
+                            <span>{{microservice.title }}</span><i class="fa fa-link mx-2" aria-hidden="true"></i>
+                            <span *ngFor="let s of microservice.swaggersVersions;let i = index" style="margin-left: 5px;">
+                                <span *ngIf="s.environment !== microservice.swaggersVersions[i - 1]?.environment">
+                                    <span class="badge badge-pill"
+                                        style="background-color: #125495;color: white;">{{s.environment}}</span>
+
+                            </span>
+                            </span>
+
+                        </div>
+                        <div mat-line (click)="openMicroservice(microservice)">
+                            {{microservice.lastUpdateDate | date}}
+                        </div>
+                        <button style="margin-right: 10px;" id="unsibsribeButton" mat-raised-button *ngIf="subscribed[j] === true;" (click)="openConfirmDeleteDialog(microservice.id)">
+                            <span translate>subscription.unsubscribe</span>
+                            <mat-icon style="margin-left: 5px;">unsubscribe</mat-icon>
+                        </button>
+                        <button (click)="goToModal(microservice)" id="subsribedButton" mat-raised-button *ngIf="subscribed[j] === true;">
+                            <span translate>subscription.subscribed</span>
+                            <mat-icon style="margin-left: 5px;">check_circle</mat-icon>
+                        </button>
+                        <button (click)="goToModal(microservice)" id="subsribeButton" mat-raised-button *ngIf="subscribed[j] === false;">
+                            <span translate>subscription.subscribe</span>
+                            <mat-icon style="margin-left: 5px;">notifications</mat-icon>
+                        </button>
+                        <mat-divider></mat-divider>
+                        <!-- </div> -->
+                    </mat-list-item>
+                </mat-list>
+            </div>
+        </div>
+
+    </div>
+</div>

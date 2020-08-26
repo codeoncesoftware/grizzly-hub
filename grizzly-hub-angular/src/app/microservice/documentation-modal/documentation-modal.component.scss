@@ -1,0 +1,37 @@
+.container-fluid{
+    background-color: white;
+    padding: 25px;
+    padding-left: 100px;
+    margin-top: 10px;
+}
+
+.post{
+    background-color: #4ACC92;
+}
+.get{
+    background-color: #62ADFC;
+}
+
+.put{
+    background-color: #FCA232;
+}
+.delete{
+    background-color: #FA3C3C;
+}
+#saveButton{
+    height: 30px;
+    width: 90px;
+    position: relative;
+    left: 40%;
+    top:25px;
+    padding: 5px;
+}
+#cancelButton{
+    height: 30px;
+    width: 90px;
+    position: relative;
+    left: 22%;
+    top:25px;
+    padding: 5px;
+}
+

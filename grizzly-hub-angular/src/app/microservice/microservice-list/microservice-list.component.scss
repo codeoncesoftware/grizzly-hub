@@ -1,0 +1,42 @@
+.swagger-toolbar {
+    background-color: #002659; 
+    color:white; 
+    height: auto;
+}
+.mat-fab-menu {
+  background-color: #002659;
+  width: 25px;
+  height: 25px;
+  margin-right: 1px;
+}
+.abrevName  {
+  color: white;
+  font-weight: bold;
+  font-size: 10px;
+  position: relative;
+  top: -8px;
+}
+a:hover {
+    color: #002659; /*the default color*/
+  }
+
+  button {
+    cursor: pointer;
+  }
+  
+  button.mat-primary{
+    background-color: #002659;
+  }
+
+  .cdk-global-overlay-wrapper{
+    justify-content: center; 
+    align-items: flex-start;
+  }
+
+  .cdk-overlay-pane{
+    pointer-events: auto; 
+    width: 50%;
+     height: 75vh;
+      position: static;
+       margin-top: 15vh;
+  }

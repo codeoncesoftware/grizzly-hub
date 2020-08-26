@@ -1,0 +1,14 @@
+<button mat-menu-item style="height: 70px; display:flex ; width: 100%" (click)="openDiffModal(notification)">
+    <div  style="display: block">
+    <img src="../../assets/images/notif.png" style="width:40px;height:40px;margin-top:15px">
+        </div>
+    <div style="display: inline-grid; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-left: 5%; padding-right: 2%; width:100%" >
+        <span  style="float:left;" > <span style=" font-weight: 500; font-size: 14px;"> {{notification.microserviceTitle}}</span> <span> : </span> <span style="font-size: 13px;" translate> {{notification.commentaire}} </span> </span>
+    <span style="color: #90949c; font-size: 12px;margin-top:-8%">{{notification.sendingDate | date : 'medium'}}
+        <span class="badge badge-pill mb-1"
+        style="background-color: #1D8AD8;color: white; margin-left: 10px;position: relative;bottom: 1px;font-size: 1em;">{{notification.environment}}</span></span>
+    
+    </div>
+</button>
+
+<mat-divider></mat-divider>

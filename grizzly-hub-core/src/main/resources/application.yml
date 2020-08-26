@@ -1,0 +1,92 @@
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+        security: INFO
+        mail: DEBUG
+      mongodb.driver: INFO
+    fr:
+      codeonce: DEBUG
+    javax.mail: DEBUG
+    org.springframework.mail: DEBUG
+    com.sun.mail.smtp: DEBUG
+server:
+  port: 8090
+  tomcat:
+    protocol_header: x-forwarded-proto
+    remote_ip_header: x-forwarded-for
+cron:
+  experession: "hello"
+spring:
+  application:
+    name: grizzlyhub-core
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/grizzly_hub
+      database: grizzly_hub
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hubgrizzly@gmail.com
+    password: hubgrizzly1234
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 100000
+          timeout: 100000
+          writetimeout: 100000
+          starttls:
+            enable: true
+            trust: smtp.gmail.com
+          ssl:
+            trust: smtp.gmail.com
+    from: hubgrizzly@gmail.com
+    personal: Grizzly HUB
+core:
+  oauth2:
+    client_id: mMKBdsIgpC9prxBwgd6V
+    client_secret: QzNmrG57pQpt5B9azA01
+    grant_type: password
+    scope: read
+    token_validity: 36000
+    refresh_token_validity: 36000
+    jwt_key: I8opCRdidwqvG6F7xqGQ
+    url: http://localhost:8090
+app:
+  cache:
+    maximumSize: 200
+    expireAfterAccess: 7
+    timeUnit: DAYS
+    containerloadingPolicy: NEWEST
+  saxon:
+    hasLicense: false
+github:
+  client:
+    clientId: ede9ba8bee8f9c247fd2 
+    clientSecret: b28e1bbc8b79996258580327244ae1ed4a35085e
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+  resource:
+    userInfoUri: https://api.github.com/user
+    salt: co%de01/
+frontUrl: http://localhost:4200
+resource-url: ./target/classes/transformation.zip
+encrypt:
+  key: b66ee2a63379d2283e7612ce2e797d08
+offres:
+  free:
+    msCount: 3
+    maxStorage: 300000
+  premium:
+    msCount: 3
+    maxStorage: 500000
+  business:
+    msCount: 10
+    maxStorage: 5000000
+frontUrlForSwagger: https://d1i6az5rm8wwls.cloudfront.net

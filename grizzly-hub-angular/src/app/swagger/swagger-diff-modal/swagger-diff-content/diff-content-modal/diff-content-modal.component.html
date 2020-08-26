@@ -1,0 +1,176 @@
+<a href="#">
+  <mat-icon (click)="close()" style="float: right">close</mat-icon>
+</a>
+<div class="container-fluid">
+  <div class="row">
+    <h1 mat-dialog-title><span translate>diff.swaggerDiff</span></h1>
+  </div>
+  <div class="row" *ngIf="!changExist()">
+    <mat-card style="width: 100%; background-color:#f5d6d6">
+      <span translate style="color: red">diff.noChanges</span>
+    </mat-card>
+  </div>
+  <div *ngIf="changExist()">
+    <div class="box box-default" style="width: 100%;margin-bottom: 2%">
+      <div class="box-header" style="height:57px">
+        <span class="badge badge-danger">v{{diffContent.oldVersion}}</span>
+        VS
+        <span class="badge badge-info">v{{diffContent.newVersion}}</span>
+        <button (click)="showDiffTree()" mat-raised-button class="btn-diff">
+          <span translate>diff.showTree</span>
+        </button>
+      </div>
+      <div class="box-divider"></div>
+      <div class="box-body">
+        <p *ngIf=" isNotEmpty(diffContent.newEndpoints)" style="font-size:19px;font-family: sans-serif;">
+          {{diffContent.newEndpoints.length}}
+          <span translate>diff.addedEndpoints</span>
+        </p>
+        <div *ngFor="let ne of diffContent.newEndpoints">
+          <mat-expansion-panel class="endpoint-panel">
+            <mat-expansion-panel-header class="diff diff-added">
+              <span class="diff-method" id="{{ne.method}}">{{ne.method}}</span>
+              <span class="diff-path">{{ne.pathUrl}}</span>
+              <span class="diff-summary">{{ne.summary}}</span>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+              <mat-list>
+                <mat-list-item style="height: 100%">
+                  <div mat-line>
+                    <div class="row">
+                      <div class="col-md-6" *ngIf="ne.operation.parameters.length">
+                        Parameters:
+                        <mat-tab-group [backgroundColor]="primary">
+                          <div *ngFor="let p of ne.operation.parameters">
+                            <mat-tab label="{{p.name}}">
+                              <pre class="prettyprint">{{'{'}}  
+  "name" : {{p.name | json}},
+  "required" : {{p.required | json}},
+  "type": {{ schemaExist(p) | json}},
+{{'}'}} 
+                                                </pre>
+                            </mat-tab>
+                          </div>
+                        </mat-tab-group>
+
+                      </div>
+                      <div class="col-md-6">
+                        Responses:
+                        <mat-tab-group>
+                          <div *ngFor="let item of ne.operation.responses | keyvalue">
+                            <mat-tab>
+                              <ng-template mat-tab-label>
+                                <span
+                                  [className]="item.key==200 ? 'success-response ': 'warn-response'">{{item.key}}</span>
+                              </ng-template>
+                              <pre class="prettyprint">{{item.value | json}}</pre>
+                            </mat-tab>
+                          </div>
+                        </mat-tab-group>
+                      </div>
+                    </div>
+                  </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              </mat-list>
+            </ng-template>
+          </mat-expansion-panel>
+        </div>
+        <p *ngIf=" isNotEmpty(diffContent.missingEndpoints)" style="font-size:19px;font-family: sans-serif;">
+          {{diffContent.missingEndpoints.length}}
+          <span translate>diff.missingEndpoints</span>
+        </p>
+        <div *ngFor="let ne of diffContent.missingEndpoints">
+          <mat-expansion-panel class="endpoint-panel">
+            <mat-expansion-panel-header class="diff diff-missing">
+              <span class="diff-method" id="{{ne.method}}">{{ne.method}}</span>
+              <span class="diff-path">{{ne.pathUrl}}</span>
+              <span class="diff-summary">{{ne.summary}}</span>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+              <mat-list>
+                <mat-list-item style="height: 100%">
+                  <div mat-line>
+                    <div class="row">
+                      <div class="col-md-6" *ngIf="ne.operation.parameters.length">
+                        Parameters:
+                        <mat-tab-group [backgroundColor]="primary">
+                          <div *ngFor="let p of ne.operation.parameters">
+                            <mat-tab label="{{p.name}}">
+                              <pre class="prettyprint">{{'{'}}  
+  "name" : {{p.name | json}},
+  "required" : {{p.required | json}},
+  "type": {{ schemaExist(p) | json }},
+{{'}'}} 
+                                                </pre>
+                            </mat-tab>
+                          </div>
+                        </mat-tab-group>
+
+                      </div>
+                      <div class="col-md-6">
+                        Responses:
+                        <mat-tab-group>
+                          <div *ngFor="let item of ne.operation.responses | keyvalue">
+                            <mat-tab>
+                              <ng-template mat-tab-label>
+                                <span
+                                  [className]="item.key==200 ? 'success-response ': 'warn-response'">{{item.key}}</span>
+                              </ng-template>
+                              <pre class="prettyprint">{{item.value | json}}</pre>
+                            </mat-tab>
+                          </div>
+                        </mat-tab-group>
+                      </div>
+                    </div>
+                  </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              </mat-list>
+            </ng-template>
+          </mat-expansion-panel>
+        </div>
+        <p *ngIf=" isNotEmpty(diffContent.changedEndpoints)" style="font-size:19px;font-family: sans-serif;">
+          {{diffContent.changedEndpoints.length}}
+          <span translate>diff.changedEndpoints</span>
+        </p>
+        <div *ngFor="let ne of changments">
+          <mat-expansion-panel class="endpoint-panel">
+            <mat-expansion-panel-header class="diff diff-changed">
+              <span class="diff-method" id="{{ne.methodType}}">{{ne.methodType}}</span>
+              <span class="diff-path">{{ne.url}}</span>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+              <mat-list>
+                <mat-list-item style="height: 100%">
+                  <div mat-line>
+                    <div class="row">
+                      <div class="col-md-6" *ngFor="let d of ne.params">
+
+                        {{d.details.length}} {{d.type}}
+                        <mat-tab-group [backgroundColor]="primary">
+                          <div *ngFor="let p of d.details ">
+                            <mat-tab label="{{p.name}}">
+                              <pre class="prettyprint">{{'{'}}  
+  "name" : {{p.name | json}},
+  "required": {{p.required | json }},
+  "in" : {{p.in | json}},
+  "type": {{ schemaExist(p) | json }}
+{{'}'}} 
+                                            </pre>
+                            </mat-tab>
+                          </div>
+                        </mat-tab-group>
+                      </div>
+                    </div>
+
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </ng-template>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

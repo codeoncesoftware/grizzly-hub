@@ -1,0 +1,112 @@
+.headerbar {
+  background-color: #001021;
+  color: white;
+}
+
+.flag-icon {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 1.33333333em;
+  line-height: 1em;
+}
+
+.material-icons { font-size: 28px; }
+
+::ng-deep.mat-menu-panel {
+  max-width: 450px!important;
+  max-height: 600px!important;
+
+}
+
+.notif{
+  color: #333; font-size: 12px; font-family: Helvetica, Arial, sans-serif;font-weight: 600;
+}
+
+.clearAll {
+  float:right; color: #385898!important; cursor: pointer; font-size: 12px;font-weight: 500;font-family: Helvetica, Arial, sans-serif; padding-right: 1%
+}
+.no-notif{
+  width:300px;margin: 40px; font-size: 20px; text-align: center
+}
+.load-all{
+  display:inline-block;color: #385898!important; cursor: pointer; font-size: 12px
+}
+
+.notification-bottom{
+  padding: 5px 12px;display:flex; justify-content: center; background-color: white!important;
+}
+.new-notifications{
+  background-color: #f5f6f7;
+  color: #90949c;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+}
+::ng-deep.mat-menu-content{
+  padding-bottom: 0px!important;
+  padding-top: 0px!important;
+}
+
+
+
+mat-menu {
+  height: 20px!important;
+  width: 550px;
+}
+
+.flag-icon:before {
+    content: "\00a0";
+  }
+
+.flag-icon-gb {
+  background-image: url(../../../assets/images/flags/gb.svg);
+}
+
+.flag-icon-fr {
+  background-image: url(../../../assets/images/flags/fr.svg);
+}
+
+.profile-icon {
+   image : url(../../../assets/images/profile.png);
+ }
+
+.mat-badge-content{
+  background : #FA3E3E;
+}
+
+.fa {
+  font-size: 25px!important;
+  color: white!important;
+}
+
+.fa-bell-o{
+  font-size: 25px!important;
+}
+
+
+a:hover {
+  color: #FFF; /*the default color*/
+}
+
+
+.scroll-box {
+  width: 380px;
+  max-height: 450px;
+  overflow-y: hidden;
+
+}
+.scroll-box::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2);
+  max-height: 30px!important;
+  border-radius: 4px;
+}
+
+
+.scroll-box:hover{
+  overflow-y: scroll;
+}
+

@@ -1,0 +1,86 @@
+<article class="article">
+    <div class="box-header container-header radius-top" [ngClass]="{'border-radius-bottom': !toggleContainerDetails === true}">
+        <button mat-button (click)="showContainerDetails()" style="cursor:pointer">
+            <mat-icon class="material-icons">
+                {{toggleContainerDetails  ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+            </mat-icon> &nbsp;
+            <span translate>container.title</span>
+        </button>
+        <span style="flex: 1 1 auto;"></span>
+
+        <div style="float:right">
+            <button mat-button (click)="openDiffModal()">
+                            <mat-icon>library_add</mat-icon> &nbsp;<span translate>container.compare</span>
+                      </button>
+        </div>
+    </div>
+
+    <div class="box-body bg-color-white radius-bottom" [@slideUpDown]="!toggleContainerDetails">
+        <div class="box box-default">
+            <div class="box-body">
+                <div>
+                    <mat-tab-group [@.disabled]="true" [selectedIndex]="selectedIndex" (selectedTabChange)="loadSwaggers($event)">
+                        <div *ngFor="let container of containersResult">
+                            <mat-tab >
+                                <ng-template mat-tab-label>
+                                    <pre>{{ container.environment }}</pre>
+                                </ng-template>
+                                <br>
+                                <!-- <div class="container-fluid">
+                                    <p class="box-dark" id="description" style="border-radius: 6px">
+                                        Authorization paragraphe
+                                    </p>
+                                </div> -->
+                                <section class="container-fluid">
+                                    <div *ngIf="showInspector">
+        
+                                        <div id="swagger-ui"  class="swagger-container" permalinks="false"></div>
+                                    </div>
+                                    <!-- <div class="float-md-left float-sm-left ml-3">
+                                        <button mat-button (click)="openSwaggerModal(container.url)" style="background-color:  #002659; color: white" class="btn-w-md cobtn">
+                                            &nbsp;&nbsp; <span translate>Afficher avec l'inspecteur</span>
+                                        </button> &nbsp;
+                                    </div>
+
+                                    <div class="float-md-left float-sm-left">
+                                        <button (click)="openDiffModal(container.id)" mat-button style="background-color:  #002659; color: white" class="btn-w-md cobtn">
+                                            <span translate>Comparer avec les autres versions</span>
+                                        </button> &nbsp;
+                                    </div> -->
+                                </section>
+                                <br>
+                                <div class="col-md-12">
+                                </div>
+
+                                <br>
+
+                                <!-- <mat-accordion multi>
+                                    <mat-expansion-panel *ngFor="let swagger of swaggerVersions;">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title style="display: inline-block;
+                                        vertical-align: middle;
+                                        margin: 10px 0;">
+                                                <button mat-button>
+                                                    {{swagger.content.info.title}}
+                                                </button> <span style="font-size: 12px;">{{swagger.version}}</span>
+                                            </mat-panel-title>
+
+                                            <mat-panel-description style="justify-content: flex-end; float:right">
+
+                                            </mat-panel-description>
+
+
+                                        </mat-expansion-panel-header>
+
+                                    </mat-expansion-panel>
+                                </mat-accordion> -->
+
+                            </mat-tab>
+
+                        </div>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

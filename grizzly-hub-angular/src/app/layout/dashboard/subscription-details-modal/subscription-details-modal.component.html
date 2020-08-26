@@ -1,0 +1,80 @@
+<h1 mat-dialog-title class="mat-dialog-title" style="margin-left: 20px;" translate>subscription.subscription</h1>
+<div class="divider divider-md"></div>
+<div class="page-wrap">
+    <div class="subscription-details-wrap">
+        <span class="subscription-details" translate>
+            subscription.details </span>
+    </div>
+
+
+    <div class="container form-container">
+        <div class="row" style="margin-top: 1%">
+            <div style="margin-left: 6%">
+                <label style="font-size: 17px"><span translate> subscription.environment</span> : </label>
+                <mat-checkbox *ngFor="let s of environmentsList" [(ngModel)]="s.checked" (change)="update(s)">
+                    <span>{{s.name}}</span>
+                </mat-checkbox>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col" style="margin-left: 6%;width: 700px;">
+                    <label style="font-size: 17px"><span translate> subscription.frequency</span> : </label>
+                    <br>
+                    <br>
+                    <div style="margin-left: 8%">
+                        <mat-radio-group aria-label="Select an option" [(ngModel)]="selection">
+                            <mat-radio-button value="1"><span translate> subscription.frequencyOptions.instantly </span>
+                            </mat-radio-button>
+                            <br>
+                            <mat-radio-button value="3600"><span translate> subscription.frequencyOptions.hourly </span>
+                            </mat-radio-button>
+                            <br>
+                            <mat-radio-button value="86400"><span translate> subscription.frequencyOptions.daily </span>
+                            </mat-radio-button>
+                            <br>
+                            <mat-radio-button value="604800"><span translate> subscription.frequencyOptions.weekly
+                                </span>
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <label style="font-size: 17px" translate>subscription.email.message</label> 
+                   <div style="margin-left: 8%">
+                        <mat-radio-group aria-label="Select an option" [(ngModel)]="emailOption" name="mailOption">
+                            <mat-radio-button name="mailOption" value="true" checked><span translate> subscription.email.yes </span>
+                            </mat-radio-button> &nbsp;
+                            <mat-radio-button name="mailOption" value="false"><span translate> subscription.email.no </span>
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="col">
+                    <label style="font-size: 17px"><span translate> subscription.changes</span> : </label>
+                    <br>
+                    <br>
+                    <div style="margin-left: 8%">
+                       
+                        <div *ngFor="let s of changesList">
+                        <mat-checkbox  [(ngModel)]="s.checked" (change)="updateChanges(s)">
+                            <span>{{s.name}}</span>
+                        </mat-checkbox>
+                        </div>
+                        <br>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="divider divider-md"></div>
+    </div>
+
+    <div class="divider divider-md"></div>
+    <div class="box-body text-right buttons">
+        <button mat-raised-button type="button" class="btn-w-md" (click)="dialogRef.close()">
+            <span translate>popups.buttons.cancel</span></button>
+        <span class="space"></span>
+        <button mat-raised-button type="button" color="primary" class="btn-w-md" id="confirm" (click)="onClick()"
+            [disabled]="selection == undefined || s == 0 || f == 0">
+            <span translate>popups.buttons.confirm</span></button>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div>
+    <mat-toolbar class="swagger-toolbar">
+        <button mat-button style="background: #002659; " (click)="openDialog()">
+      <strong class="material-icons" style="color:white;">add_circle</strong>
+    </button>
+        <span class="toolbar-text" translate>sidenav.microservices</span>
+    </mat-toolbar>
+</div>
+
+<ul class="nav" myAccordionNav myAppendSubmenuIcon mySlimScroll myHighlightActiveItems>
+    <li>
+        <a (click)="load()" mat-button>
+            <strong class="nav-icon nav-dot material-icons color-primary">home</strong>
+            <span><strong translate>  My Hub </strong></span>
+        </a>
+    </li>
+</ul>
+
+<div>
+    <ul class="nav list ml-3" myAccordionNav mySlimScroll myHighlightActiveItems myAppendSubmenuIcon style="overflow-y:scroll; max-height: 130px;height: 100%;">
+        <li *ngFor="let microservice of myhubMicroservices; let i = index">
+            <a (click)="navigateToMicroservice(microservice.id)" mat-button><em
+          class="nav-icon material-icons">bubble_chart</em><span style="color: black"
+          class="nav-text">{{ microservice.title }}</span>
+      </a>
+        </li>
+    </ul>
+</div>
+<ul class="nav " myAccordionNav myAppendSubmenuIcon mySlimScroll myHighlightActiveItems>
+    <li>
+        <a (click)="loadTeam()" mat-button>
+            <strong class="nav-icon nav-dot material-icons color-primary">people</strong>
+            <span><strong translate>  Team Hub </strong></span>
+        </a>
+    </li>
+</ul>
+<div>
+    <ul class="nav list ml-3" myAccordionNav mySlimScroll myHighlightActiveItems myAppendSubmenuIcon style="overflow-y:scroll; max-height: 130px;height: 100%;">
+        <li *ngFor="let microservice of teamMicroservices; let i = index">
+            <a [routerLink]="['/app/microservice', microservice.id]" mat-button><em
+          class="nav-icon material-icons">bubble_chart</em><span style="color: black"
+          class="nav-text">{{ microservice.title }}</span> <span class="ml-3" *ngFor="let tname of microservice.teamNames">
+              <span>
+                <button class="mat-fab-menu  mt-2 " mat-mini-fab  >
+                    <span class="abrevName">{{tname}}</span> 
+                </button>
+              </span>
+          </span>
+      </a>
+        </li>
+    </ul>
+</div>

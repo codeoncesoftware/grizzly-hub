@@ -1,0 +1,129 @@
+<h1 mat-dialog-title> <span style="margin-left:45%;" translate>Documentation</span></h1>
+<div class="container-fluid" style="background-color: white;">
+    <div class="row">
+        <form>
+            <h5>Endpoints : </h5>
+            <div style="width: 1000px;">
+                <mat-tab-group >
+                    <mat-tab label="GET">
+                         <div *ngFor="let endpoint of getEndpoints; let i = index" >
+                        <div style="
+                        width: 50%;
+                        float: left;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;">
+                            
+                            <mat-checkbox [name]="endpoint.name" [checked]="checkedGetEndpoints[i]===true"   (change)="addEndpoint(endpoint)" #myCheckBoxs style="display: inline-block;">
+                            </mat-checkbox>
+                            <button style="margin-left: 20px;color: white; height: 25px;width: 50px;display: inline-block;"
+                                class="btn btn-primary btn-sm" [ngClass]="{post: endpoint.operation == 'post',
+                                get: endpoint.operation == 'get',
+                                delete: endpoint.operation == 'delete',
+                                put: endpoint.operation == 'put'
+                            }">{{endpoint.operation}}</button>
+                            <h6 style="display: inline-block;margin-left: 10px;">{{endpoint.endpoint}}</h6>
+                            <mat-icon mat-button (click)="showEdior(endpoint.endpoint , endpoint.operation)" *ngIf="myCheckBoxs.checked"
+                                style="color: #2494F3;display: inline-block;cursor: pointer;margin-left: 10px;">
+                                note_add</mat-icon>
+                        </div>
+                        <br>
+                    </div> </mat-tab>
+                    <mat-tab label="POST"> 
+                         <div *ngFor="let endpoint of postEndpoints;let i = index" >
+
+                        <div style="
+                        width: 50%;
+                        float: left;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;">
+                            
+                            <mat-checkbox [name]="endpoint.name" [checked]="checkedPostEndpoints[i]===true"   (change)="addEndpoint(endpoint)" #myCheckBoxs style="display: inline-block;">
+                            </mat-checkbox>
+                            <button style="margin-left: 20px;color: white; height: 25px;width: 50px;display: inline-block;"
+                                class="btn btn-primary btn-sm" [ngClass]="{post: endpoint.operation == 'post',
+                                get: endpoint.operation == 'get',
+                                delete: endpoint.operation == 'delete',
+                                put: endpoint.operation == 'put'
+                            }">{{endpoint.operation}}</button>
+                            <h6 style="display: inline-block;margin-left: 10px;">{{endpoint.endpoint}}</h6>
+                            <mat-icon mat-button (click)="showEdior(endpoint.endpoint , endpoint.operation)" *ngIf="myCheckBoxs.checked"
+                                style="color: #2494F3;display: inline-block;cursor: pointer;margin-left: 10px;">
+                                note_add</mat-icon>
+                        </div>
+                        <br>
+                    </div> </mat-tab>
+                    <mat-tab label="PUT"> 
+                        <div *ngFor="let endpoint of putEndpoints;let i = index" >
+                        <div style="
+                        width: 50%;
+                        float: left;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;">
+                            
+                            <mat-checkbox [name]="endpoint.name" [checked]="checkedPutEndpoints[i]===true"   (change)="addEndpoint(endpoint)" #myCheckBoxs style="display: inline-block;">
+                            </mat-checkbox>
+                            <button style="margin-left: 20px;color: white; height: 25px;width: 50px;display: inline-block;"
+                                class="btn btn-primary btn-sm" [ngClass]="{post: endpoint.operation == 'post',
+                                get: endpoint.operation == 'get',
+                                delete: endpoint.operation == 'delete',
+                                put: endpoint.operation == 'put'
+                            }">{{endpoint.operation}}</button>
+                            <h6 style="display: inline-block;margin-left: 10px;">{{endpoint.endpoint}}</h6>
+                            <mat-icon mat-button (click)="showEdior(endpoint.endpoint , endpoint.operation)" *ngIf="myCheckBoxs.checked"
+                                style="color: #2494F3;display: inline-block;cursor: pointer;margin-left: 10px;">
+                                note_add</mat-icon>
+                        </div>
+                        <br>
+                    </div> </mat-tab>
+                    <mat-tab label="DELETE">  <div *ngFor="let endpoint of deleteEndpoints;let i = index" >
+
+                        <div  style="
+                        width: 50%;
+                        float: left;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;">
+                            
+                            <mat-checkbox [name]="endpoint.name" [checked]="checkedDeleteEndpoints[i]===true"   (change)="addEndpoint(endpoint)" #myCheckBoxs style="display: inline-block;">
+                            </mat-checkbox>
+                            <button style="margin-left: 20px;color: white; height: 25px;width: 50px;display: inline-block;"
+                                class="btn btn-primary btn-sm" [ngClass]="{post: endpoint.operation == 'post',
+                                get: endpoint.operation == 'get',
+                                delete: endpoint.operation == 'delete',
+                                put: endpoint.operation == 'put'
+                            }">{{endpoint.operation}}</button>
+                            <h6 style="display: inline-block;margin-left: 10px;">{{endpoint.endpoint}}</h6>
+                            <mat-icon mat-button (click)="showEdior(endpoint.endpoint , endpoint.operation)" *ngIf="myCheckBoxs.checked"
+                                style="color: #2494F3;display: inline-block;cursor: pointer;margin-left: 10px;">
+                                note_add</mat-icon>
+                        </div>
+                        <br>
+                    </div> </mat-tab>
+                  </mat-tab-group>
+               
+
+            </div>
+            <div class="row" *ngIf="show ===true">
+                <h5>Veuillez ajouter vos remarques liés à {{endpointName}} : </h5>
+                <button (click)="changeDoc(endpointName , operation)" id ="saveButton"class="btn btn-secondary"><span translate>popups.buttons.save</span></button>
+                <button (click)="hideEditor()" id ="cancelButton"class="btn btn-light"><span translate>popups.buttons.cancel</span></button>
+                <ckeditor (change)="onChange($event)"  [data]="curl" #e id="editor" style="width: 1000px;" [editor]="Editor" ></ckeditor>
+               
+
+            </div>
+        </form>
+
+    </div>
+
+
+</div>
+<div class="box-body text-right">
+    <button mat-raised-button type="button" class="btn-w-md" (click)="dialogRef.close()">
+        <span translate>popups.buttons.cancel</span></button>
+    <span class="space"></span>
+    <button (click)="documentMicroservice(endpointName, operation)" mat-raised-button type="button" color="primary" class="btn-w-md" id="confirm">
+        <span translate>popups.buttons.confirm</span></button>
+</div>

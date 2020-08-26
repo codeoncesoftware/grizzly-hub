@@ -1,0 +1,227 @@
+<app-loader></app-loader>
+<div class="container-fluid" tyle="text-align: center;height:100vh;position: relative;">
+    <div>
+        <form name="form" #f="ngForm">
+
+            <h1 mat-dialog-title> <span style="margin-left: 38%;" translate>{{ data.action.msg }}</span>
+                {{ data.microservice?.name }}</h1>
+
+            <mat-horizontal-stepper #stepper>
+                <div class="divider divider-md"></div>
+                <mat-step #microserviceForm>
+                    <ng-template matStepLabel style="color: #fff"><span translate>popups.microservice.details</span>
+                    </ng-template>
+                    <div class="divider divider-md"></div>
+                    <div class="container" style="height: 100%">
+                        <div class="row">
+                            <mat-form-field class="col-md-12">
+                                <input required matInput #title="ngModel"
+                                    placeholder="{{ 'popups.microservice.placeholder.name' | translate}}" name="title"
+                                    [(ngModel)]="microservice.title">
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-error *ngIf="title?.errors?.required && title?.touched">
+                                    <span translate>popups.microservice.errors.null</span>
+                                </mat-error>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-error *ngIf="existingName">
+                                    <span translate>popups.microservice.errors.unicity</span>
+                                </mat-error>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <mat-form-field class="col-md-12">
+                                <textarea matInput
+                                    placeholder="{{ 'popups.microservice.placeholder.description' | translate}}"
+                                    rows="3" name="description" [(ngModel)]="description"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-3">
+                                <label translate>popups.microservice.type</label>
+                            </div>
+                            <mat-radio-group [disabled]="updateVisibility" [(ngModel)]="microservice.type" name="type" style="margin-left: -120px;"
+                                class="col-md-5">
+                                <mat-radio-button  name="type" value="private" checked><span
+                                        translate>popups.microservice.personnal</span></mat-radio-button>
+                                <mat-radio-button style="margin-left: 20px;" value="public" name="type"><span
+                                        translate>popups.microservice.public</span></mat-radio-button>
+                                        <span  [hidden]="hideShared || !update">
+                                            <mat-radio-button #sh style="margin-left: 20px;" value="shared" name="type"><span
+                                                translate>popups.microservice.shared</span></mat-radio-button>
+                                        </span>
+                               
+                            </mat-radio-group>
+                            <span  style="margin-left: -40px;" *ngIf="hideShared === false"> 
+                                <div  *ngIf="sh.checked && !update" class="col-md-4">
+                                <mat-form-field  style="width: 400px;position: relative;bottom: 22px;">
+                                    <mat-chip-list #chipList>
+                                        <mat-chip *ngFor="let team of teams " [selectable]="selectable"
+                                            [removable]="removable" (removed)="remove(team)">
+                                            {{team.name}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+                                        <input placeholder="{{ 'popups.microservice.teams' | translate}}"
+                                            style="width: 500px;" #teamInput [matChipInputFor]="chipList"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur" [formControl]="myControl"
+                                            [matAutocomplete]="auto">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions | async"
+                                                (click)="addOption(option.name , option.id)" [value]="option.id">
+                                                {{option.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-chip-list>
+                                </mat-form-field>
+                            </div>
+                            <span *ngIf="sh.checked && update">
+                               
+                                <div >
+                                    <span *ngFor= "let t of teamNames" style="font-weight: bold;margin-right: 10px;">
+                                        {{t.name}} 
+                                    </span>
+                                </div>
+                            </span>
+                            </span>
+                            
+                            
+
+                        </div>
+
+                        <br>
+                        <div *ngIf="sharedError" class="row">
+                            <div class="col-md-6">
+                                <mat-error>
+                                    <span translate>popups.microservice.errors.sharedError</span>
+                                </mat-error>
+                            </div>
+                            <br>
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+                            <mat-form-field class="col-md-2">
+                                <mat-label>Environnement</mat-label>
+
+                                <input matInput list="environments" name="environment" [(ngModel)]="swagger.environment"
+                                    #environment="ngModel" autocomplete="off">
+                                <datalist matNativeControl id="environments">
+                                    <option value="Feat">Feat</option>
+                                    <option value="Sint">Sint</option>
+                                    <option value="Demo">Demo</option>
+                                    <option value="Perf">Perf</option>
+                                    <option value="Preprod">Preprod</option>
+                                    <option value="Prod">Prod</option>
+                                </datalist>
+                            </mat-form-field>
+                            <mat-form-field class="col-md-5">
+                                <input [disabled]="isChecked" matInput
+                                    placeholder="{{ 'popups.swagger.placeholder.url' | translate}}" name="url"
+                                    autocomplete="off" #url="ngModel" [(ngModel)]="swagger.url">
+
+                            </mat-form-field>
+
+                            <div class="col-md-5">
+                                <div class="row" style="display: block;">
+                                    <mat-slide-toggle color="color" [(ngModel)]="isChecked" name="checkInput">&nbsp;
+                                        <span translate>or</span></mat-slide-toggle>
+                                    <button style="margin-left: 20px;" [disabled]="!isChecked" mat-raised-button
+                                        color="primary" class="btn-w-md mt-2" (click)="inputFileSwagger.click()"
+                                        name="file-attach">
+                                        <mat-icon class="material-icons">attachment icon</mat-icon>&nbsp; <span
+                                            translate>Importer</span>
+                                    </button>
+                                    <button style="margin-left: 10px;" mat-raised-button color="primary"
+                                        class="btn-w-md mt-2" (click)="addNewSwagger()">
+                                        <mat-icon class="material-icons">add</mat-icon>&nbsp; <span
+                                            translate>popups.buttons.add</span>
+                                    </button>
+                                    <input #inputFileSwagger type="file" name="file" [style.display]="'none'"
+                                        ng2FileSelect [uploader]="uploader"
+                                        (change)="importSwaggerOnExistingContainer()" [(ngModel)]="swagger.file">
+                                    <p>{{swagger.file ? swagger.file.name : ''}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-error *ngIf="invalidSwaggerUrl">
+                                    <span translate>swagger.errorMsg</span>
+                                </mat-error>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-error *ngIf="containsSwagger">
+                                    <span translate>popups.microservice.errors.swaggers</span>
+                                </mat-error>
+                            </div>
+                        </div>
+                        <div *ngIf="swaggers?.length > 0">
+                            <div style="height: 50%;">
+                                <table class="mdl-data-table" style="width: 100%;">
+                                    <thead>
+                                        <tr *ngIf="swaggers.length > 0">
+                                            <th id="tableHead">TYPE</th>
+                                            <th id="tableHead">NAME</th>
+                                            <th id="tableHead">Environnement</th>
+                                            <th id="tableHead"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let swagger of swaggers; let i = index">
+                                            <tr>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{ swagger.url ? urlType : fileType }} </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{ swagger.file ? swagger.file.name : swagger.url }} </td>
+                                                <td class="mdl-data-table__cell--non-numeric">{{ swagger?.environment }}
+                                                </td>
+                                                <td>
+                                                    <button mat-button (click)="deleteSwaggerRow(i)">
+                                                        <mat-icon>clear</mat-icon>
+                                                    </button>
+                                                </td>
+
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </mat-step>
+
+            </mat-horizontal-stepper>
+
+            <div class="divider divider-md"></div>
+            <div class="box-body text-right">
+
+                <button mat-raised-button type="button" class="btn-w-md" (click)="dialogRef.close()">
+                    <span translate>popups.buttons.cancel</span></button>
+                <span class="space"></span>
+                <button mat-raised-button type="button" (click)="Save()" color="primary" class="btn-w-md" id="confirm"
+                    [disabled]="f.form.invalid ">
+                    <span translate>popups.buttons.confirm</span></button>
+            </div>
+
+
+
+        </form>
+    </div>
+
+</div>
